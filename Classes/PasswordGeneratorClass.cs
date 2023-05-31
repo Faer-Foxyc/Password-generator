@@ -5,13 +5,13 @@ namespace Password_generator.Classes
 {
     internal class PasswordGeneratorClass
     {
-        bool symbols { get; set; }
-        int lengthsPassword { get; set; }
+        bool Symbols { get; set; }
+        int LengthsPassword { get; set; }
 
         public PasswordGeneratorClass(bool _symbols, int _lengthsPassword)
         {
-            symbols = _symbols;
-            lengthsPassword = _lengthsPassword;
+            Symbols = _symbols;
+            LengthsPassword = _lengthsPassword;
         }
         public PasswordGeneratorClass() { }
 
@@ -19,34 +19,16 @@ namespace Password_generator.Classes
         {
             string password = string.Empty;
 
-            if (symbols == false)
-            {
-                password = GeneratePasswordLetters();
-            }
-            else 
-            {
-                password = GeneratePasswordWithSymbol();
-            }
+            const string charsWithoutSymbols = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+            const string charsWithSymbols = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%&*";
+
+            var random = new Random();
+            var chars = Symbols ? charsWithSymbols : charsWithoutSymbols;
+
+            return new string(Enumerable.Repeat(chars, LengthsPassword)
+              .Select(s => s[random.Next(s.Length)]).ToArray());
 
             return password;
-        }
-
-        string GeneratePasswordLetters()
-        {
-
-            const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-            var random = new Random();
-            return new string(Enumerable.Repeat(chars, lengthsPassword)
-              .Select(s => s[random.Next(s.Length)]).ToArray());
-        }
-
-        string GeneratePasswordWithSymbol()
-        {
-
-            const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%&*";
-            var random = new Random();
-            return new string(Enumerable.Repeat(chars, lengthsPassword)
-              .Select(s => s[random.Next(s.Length)]).ToArray());
         }
     }
 }
